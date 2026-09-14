@@ -1,0 +1,12 @@
+# QuestaSim / ModelSim generated files
+work/
+*.wlf
+*.vcd
+*.ucdb
+*.log
+transcript
+modelsim.ini
+
+# Generated APB RAL simulation outputs
+sim/ral_simulation.log
+sim/apb_ral.ucdb
