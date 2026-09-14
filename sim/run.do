@@ -1,8 +1,63 @@
-transcript file ral_simulation.log
+# ============================================================
+# Locate repository root
+# ============================================================
+
+set SCRIPT_DIR   [file dirname [file normalize [info script]]]
+set PROJECT_ROOT [file normalize [file join $SCRIPT_DIR ..]]
+
+cd $PROJECT_ROOT
+
+
+# ============================================================
+# Transcript
+# ============================================================
+
+transcript file sim/ral_simulation.log
+
+
+# ============================================================
+# Clean and create work library
+# ============================================================
+
+if {[file exists work]} {
+    vdel -all
+}
+
 vlib work
-vlog -f files.txt +cover
+vmap work work
+
+
+# ============================================================
+# Compile
+# ============================================================
+
+vlog -sv +incdir+tb -f sim/files.txt +cover
+
+
+# ============================================================
+# Start simulation
+# ============================================================
+
 vsim -voptargs=+acc work.top -cover
+
+
+# ============================================================
+# Load waveform configuration
+# ============================================================
+
 run 0
-do wave.do
+do sim/wave.do
+
+
+# ============================================================
+# Run complete simulation
+# ============================================================
+
 run -all
-coverage save apb_ral.ucdb
+
+
+# ============================================================
+# Save coverage database
+# ============================================================
+
+coverage save sim/apb_ral.ucdb
